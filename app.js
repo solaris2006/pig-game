@@ -11,7 +11,7 @@ GAME RULES:
 
 var scores, roundScore, activePlayer;
 
-scores = [0,0];
+scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 
@@ -31,10 +31,10 @@ document.getElementById('current-0').textContent = '0';
 
 
 
-document.querySelector('.btn-roll').addEventListener('click',function() {
+document.querySelector('.btn-roll').addEventListener('click', function () {
     //1. generate random number 
     var dice = Math.floor(Math.random() * 6) + 1;
-   
+
 
 
     //2. Display result
@@ -44,30 +44,23 @@ document.querySelector('.btn-roll').addEventListener('click',function() {
     diceDom.src = 'dice-' + dice + '.png';
 
     //3. Update round score IF result is not a   1
-    
-    if (dice !== 1){
+
+    if (dice !== 1) {
         //update round score
         roundScore += dice;
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
 
-    }else{
+    } else {
         //Next player
 
-        activePlayer === 0 ? activePlayer = 1: activePlayer = 0;
-        roundScore = 0;
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        document.querySelector('.player-0-panel').classList.toggle('active')
-        document.querySelector('.player-1-panel').classList.toggle('active')
-        document.querySelector('.dice').style.display = 'none';
+        nextPlayer();
 
 
 
     }
 })
 
-document.querySelector('.btn-hold').addEventListener('click', function(){
+document.querySelector('.btn-hold').addEventListener('click', function () {
     //add current score to global score
     scores[activePlayer] += roundScore;
 
@@ -76,7 +69,18 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
 
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
-    activePlayer === 0 ? activePlayer = 1: activePlayer = 0;
+
+    //check if player won the game
+
+
+    //next player
+    nextPlayer();
+
+})
+
+
+function nextPlayer() {
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     roundScore = 0;
     document.getElementById('current-0').textContent = '0';
     document.getElementById('current-1').textContent = '0';
@@ -84,7 +88,4 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     document.querySelector('.player-0-panel').classList.toggle('active')
     document.querySelector('.player-1-panel').classList.toggle('active')
     document.querySelector('.dice').style.display = 'none';
-
-
-    //check if player won the game
-})
+}
